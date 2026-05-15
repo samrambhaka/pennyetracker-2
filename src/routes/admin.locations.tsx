@@ -133,7 +133,7 @@ function Column({
 
   const update = useMutation({
     mutationFn: async ({ id, patch }: { id: string; patch: Record<string, any> }) => {
-      const { error } = await supabase.from(table).update(patch).eq("id", id);
+      const { error } = await supabase.from(table).update(patch as any).eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => { qc.invalidateQueries({ queryKey: [table, parentId] }); toast.success("Updated"); },
