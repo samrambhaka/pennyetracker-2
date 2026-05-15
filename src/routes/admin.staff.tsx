@@ -141,7 +141,7 @@ function StaffPage() {
 
 function AddStaffDialog({ panchayaths, wards, onClose }: { panchayaths: any[]; wards: any[]; onClose: () => void }) {
   const qc = useQueryClient();
-  const [form, setForm] = useState({ full_name: "", phone: "", email: "", status: "active" });
+  const [form, setForm] = useState({ full_name: "", phone: "", alt_phone: "", email: "", status: "active" });
   const [selectedPanchayaths, setSelectedPanchayaths] = useState<string[]>([]);
   const [selectedWards, setSelectedWards] = useState<string[]>([]);
 
@@ -173,6 +173,7 @@ function AddStaffDialog({ panchayaths, wards, onClose }: { panchayaths: any[]; w
         .insert({
           full_name: form.full_name,
           phone: form.phone,
+          alt_phone: form.alt_phone || null,
           email: form.email || null,
           status: form.status,
         })
@@ -207,6 +208,7 @@ function AddStaffDialog({ panchayaths, wards, onClose }: { panchayaths: any[]; w
       <div className="grid gap-3">
         <Field label="Full name" value={form.full_name} onChange={(v) => setForm({ ...form, full_name: v })} />
         <Field label="Phone" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
+        <Field label="Alternate mobile (optional)" value={form.alt_phone} onChange={(v) => setForm({ ...form, alt_phone: v })} />
         <Field label="Email (optional)" value={form.email} onChange={(v) => setForm({ ...form, email: v })} />
 
         <div className="grid grid-cols-2 gap-3">
