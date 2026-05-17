@@ -168,6 +168,45 @@ export type Database = {
           },
         ]
       }
+      panchayath_connections: {
+        Row: {
+          created_at: string
+          direction: Database["public"]["Enums"]["connection_direction"]
+          id: string
+          source_panchayath_id: string
+          target_panchayath_id: string
+        }
+        Insert: {
+          created_at?: string
+          direction: Database["public"]["Enums"]["connection_direction"]
+          id?: string
+          source_panchayath_id: string
+          target_panchayath_id: string
+        }
+        Update: {
+          created_at?: string
+          direction?: Database["public"]["Enums"]["connection_direction"]
+          id?: string
+          source_panchayath_id?: string
+          target_panchayath_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "panchayath_connections_source_panchayath_id_fkey"
+            columns: ["source_panchayath_id"]
+            isOneToOne: false
+            referencedRelation: "panchayaths"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "panchayath_connections_target_panchayath_id_fkey"
+            columns: ["target_panchayath_id"]
+            isOneToOne: false
+            referencedRelation: "panchayaths"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       panchayaths: {
         Row: {
           created_at: string
@@ -266,6 +305,45 @@ export type Database = {
         }
         Relationships: []
       }
+      ward_connections: {
+        Row: {
+          created_at: string
+          direction: Database["public"]["Enums"]["connection_direction"]
+          id: string
+          source_ward_id: string
+          target_ward_id: string
+        }
+        Insert: {
+          created_at?: string
+          direction: Database["public"]["Enums"]["connection_direction"]
+          id?: string
+          source_ward_id: string
+          target_ward_id: string
+        }
+        Update: {
+          created_at?: string
+          direction?: Database["public"]["Enums"]["connection_direction"]
+          id?: string
+          source_ward_id?: string
+          target_ward_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ward_connections_source_ward_id_fkey"
+            columns: ["source_ward_id"]
+            isOneToOne: false
+            referencedRelation: "wards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ward_connections_target_ward_id_fkey"
+            columns: ["target_ward_id"]
+            isOneToOne: false
+            referencedRelation: "wards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       wards: {
         Row: {
           created_at: string
@@ -312,10 +390,15 @@ export type Database = {
         Returns: boolean
       }
       is_admin: { Args: { _user_id: string }; Returns: boolean }
+      opposite_direction: {
+        Args: { _dir: Database["public"]["Enums"]["connection_direction"] }
+        Returns: Database["public"]["Enums"]["connection_direction"]
+      }
       promote_to_super_admin: { Args: { _email: string }; Returns: undefined }
     }
     Enums: {
       app_role: "super_admin" | "admin" | "delivery"
+      connection_direction: "north" | "south" | "east" | "west"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -444,6 +527,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["super_admin", "admin", "delivery"],
+      connection_direction: ["north", "south", "east", "west"],
     },
   },
 } as const
